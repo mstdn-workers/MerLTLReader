@@ -1,0 +1,50 @@
+# Crashlytics plugin (for Android Studio and IntelliJ)
+com_crashlytics_export_strings.xml
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Gradle generated files
+/.gradle/
+
+# Signing files
+.signing/
+
+/build/
+/*/build/
+/out/
+
+# User-specific configurations
+*.iml
+
+/.idea/libraries/
+/.idea/workspace.xml
+/.idea/tasks.xml
+/.idea/.name
+/.idea/compiler.xml
+/.idea/kotlinc.xml
+/.idea/copyright/profiles_settings.xml
+/.idea/encodings.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/scopes/scope_settings.xml
+/.idea/vcs.xml
+
+# https://intellij-support.jetbrains.com/hc/en-us/articles/206544839-How-to-manage-projects-under-Version-Control-Systems
+/.idea/gradle.xml
+
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+#Mastodon auth files
+/src/main/resources/**/*access_token*
+/src/main/resources/**/*cred*
