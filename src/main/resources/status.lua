@@ -32,6 +32,9 @@ local name_table = {
         return a.displayName:gsub("Kawasaki", "カワサキ")
     end,
     stlayer = "なぞのおとこ",
+    misakayuni = function(a)
+        return a.displayName:gsub("御坂優仁%(みさかゆに%)", "みさかゆに")
+    end,
 }
 local function name_table_proc(a)
     local id = a.acct
@@ -83,6 +86,7 @@ function string:toReadable()
         :gsub("\u00e2\u009c\u0085", "")
         :gsub("mstdn-workers", "ますどんわーかーず")
         :gsub("%.jar", "どっとじゃー")
+        :gsub("秋月", "あきづき")
 end
 
 return status
