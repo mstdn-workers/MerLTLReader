@@ -23,14 +23,14 @@ class Timeline(credentials: Credentials) {
                     gson = Gson()
             ).accessToken(credentials.accessToken)
             .build()
-    val timelines = Public(client)
+    val tl = Public(client)
 
     operator fun iterator() = this
     operator fun hasNext() = true
 
     operator fun next(): Status {
         while (queue.size == 0) {
-            val statuses = timelines.getLocalPublic(Range(sinceId = since)).execute().part
+            val statuses = tl.getLocalPublic(Range(sinceId = since)).execute().part
             queue.addAll(statuses.filter { s -> !s.isSpam }.reversed())
             if (queue.size > 0) break
             try {
