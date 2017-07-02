@@ -7,7 +7,7 @@ import org.snowink.bouyomichan.BouyomiChan4J
  */
 class BouyomiConnecter(val engine_params: Map<String, Any>): ITTSEngine {
 
-    private val b4j = BouyomiChan4J();
+    private val b4j = BouyomiChan4J()
 
     private fun say(readtext: String, params: Map<String, Any>) {
         /*
