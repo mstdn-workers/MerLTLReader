@@ -16,7 +16,7 @@ fun valueOf(mention: Mention): LuaValue = tableOf(arrayOf(
         valueOf("acct"), valueOf(mention.acct),
         valueOf("id"), valueOf(mention.id),
         valueOf("url"), valueOf(mention.url),
-        valueOf("username"), valueOf(mention.username)))
+        valueOf("mailAddress"), valueOf(mention.username)))
 
 fun valueOf(tag: Tag): LuaValue = tableOf(arrayOf(
         valueOf("name"), valueOf(tag.name),

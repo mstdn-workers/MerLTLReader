@@ -32,4 +32,7 @@ dependencies {
     //compile 'org.json:json:20170516'
     //compile 'com.vdurmont:emoji-java:3.2.0'
     compile 'com.kcthota:emoji4j:5.0'
+    // https://mvnrepository.com/artifact/net.harawata/appdirs
+    compile group: 'net.harawata', name: 'appdirs', version: '1.0.0'
+    compile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
 }

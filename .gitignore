@@ -32,7 +32,7 @@ local.properties
 /.idea/modules.xml
 /.idea/scopes/scope_settings.xml
 /.idea/vcs.xml
-/.idea/artifacts/merltlreader_jar.xml
+/.idea/artifacts/*_jar.xml
 
 # https://intellij-support.jetbrains.com/hc/en-us/articles/206544839-How-to-manage-projects-under-Version-Control-Systems
 /.idea/gradle.xml
@@ -45,7 +45,3 @@ local.properties
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-#Mastodon auth files
-/src/main/resources/**/*access_token*
-/src/main/resources/**/*cred*
