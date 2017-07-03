@@ -35,4 +35,5 @@ dependencies {
     // https://mvnrepository.com/artifact/net.harawata/appdirs
     compile group: 'net.harawata', name: 'appdirs', version: '1.0.0'
     compile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
+    compile group: 'com.salesforceiq.augmenteddriver', name: 'AugmentedDriver', version: '1.7.6'
 }
