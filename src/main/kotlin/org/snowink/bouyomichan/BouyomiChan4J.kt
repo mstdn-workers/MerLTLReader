@@ -140,8 +140,8 @@ class BouyomiChan4J(
     }
 
     companion object {
-        private val DEFAULT_BOUYOMI_HOST = "localhost"
-        private val DEFAULT_BOUYOMI_PORT = 50001
+        val DEFAULT_BOUYOMI_HOST = "localhost"
+        val DEFAULT_BOUYOMI_PORT = 50001
     }
 
 }

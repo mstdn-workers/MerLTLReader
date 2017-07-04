@@ -1,11 +1,26 @@
 package jp.zero_x_d.workaholic.merltlreader.engine
 
 import org.snowink.bouyomichan.BouyomiChan4J
+import java.net.ConnectException
+import java.net.Socket
 
 /**
  * Created by jun on 2017/07/01.
  */
 class BouyomiConnecter(val engine_params: Map<String, Any>): ITTSEngine {
+    override fun test(): Boolean {
+        var socket: Socket? = null
+        try {
+            socket = Socket(
+                    BouyomiChan4J.DEFAULT_BOUYOMI_HOST,
+                    BouyomiChan4J.DEFAULT_BOUYOMI_PORT)
+        } catch (_: ConnectException) {
+            return false
+        } finally {
+            socket?.close()
+        }
+        return true
+    }
 
     private val b4j = BouyomiChan4J()
 

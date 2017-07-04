@@ -1,7 +1,9 @@
 package jp.zero_x_d.workaholic.merltlreader.engine
 
+import org.snowink.bouyomichan.BouyomiChan4J
 import java.io.OutputStreamWriter
 import java.io.PrintWriter
+import java.net.ConnectException
 import java.net.Socket
 
 /**
@@ -15,9 +17,25 @@ class JTalkConnecter(val engine_params: Map<String, Any>): ITTSEngine {
     val content_voice_params = mapOf(
             "Voice" to "mei",
             "Speed" to 1.9)
+    val DEFAULT_JTALK_HOST = "localhost"
+    val DEFAULT_JTALK_PORT = 8000
+
+    override fun test(): Boolean {
+        var socket: Socket? = null
+        try {
+            socket = Socket(
+                    DEFAULT_JTALK_HOST,
+                    DEFAULT_JTALK_PORT)
+        } catch (_: ConnectException) {
+            return false
+        } finally {
+            socket?.close()
+        }
+        return true
+    }
 
     private fun say(readtext: String, params: Map<String, Any>) {
-        val socket = Socket("localhost", 8000);
+        val socket = Socket(DEFAULT_JTALK_HOST, DEFAULT_JTALK_PORT)
 
         val output = socket.getOutputStream()
         val input = socket.getInputStream()
