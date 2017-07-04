@@ -40,7 +40,7 @@ object MerLTLReader {
         }
     }
 
-    private fun launch(vararg arg: String) {
+    private fun launch(vararg args: String) {
         val credentials =
                 Credentials.Builder(preferences!!)
                         .loadOrAppRegister().loadOrLogin {
