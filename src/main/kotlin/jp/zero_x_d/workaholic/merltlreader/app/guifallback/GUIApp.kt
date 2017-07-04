@@ -29,7 +29,7 @@ class GUIApp: Application() {
         root.children.add(logArea)
         primaryStage.scene = scene
 
-        primaryStage.setOnCloseRequest { e ->
+        primaryStage.setOnCloseRequest { event ->
             Platform.exit()
             println("close")
             // TODO あとできちんとInterruptする
