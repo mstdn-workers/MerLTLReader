@@ -16,14 +16,14 @@ class GUIApp: Application() {
         Platform.setImplicitExit(true)
         val root = StackPane()
         val scene = Scene(root, 640.0, 480.0)
-        var logArea = TextArea().apply {
+        val logArea = TextArea().apply {
             textProperty().addListener { _ ->
                 scrollTop = Double.MAX_VALUE
             }
         }
 
         MerLTLReader.onStatus += { status ->
-            logArea?.appendText(status.readContent + "\n")
+            logArea.appendText(status.readContent + "\n")
         }
 
         root.children.add(logArea)
