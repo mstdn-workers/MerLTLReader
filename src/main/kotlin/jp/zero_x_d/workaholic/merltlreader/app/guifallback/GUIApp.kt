@@ -39,10 +39,10 @@ class GUIApp: Application() {
 
         val credentials =
                 Credentials.Builder(MerLTLReader.preferences!!)
-                        .loadOrAppRegister().loadOrLogin {
+                        .loadOrAppRegister()/*.loadOrLogin {
                     val dialog = LoginDialog(preferences)
                     mailPass = requireNotNull(dialog.showAndWait())
-                }
+                }*/.create()
 
         thread {
             val tl = Timeline(credentials)

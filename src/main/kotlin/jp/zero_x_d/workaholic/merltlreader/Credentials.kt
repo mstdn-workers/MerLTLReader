@@ -18,10 +18,11 @@ data class LoginData(
 )
 data class Credentials(
         val instanceURL: String,
-        val accessToken: String
+        val accessToken: String?
 ) {
     class CredentialsBuilder(val preferences: Preferences) {
         private var appRegistration: AppRegistration? = null
+        private var accessToken: AccessToken? = null
         private val gson by lazy { Gson() }
         var mailPass: LoginData? = null
         private val client: MastodonClient by lazy {
@@ -50,9 +51,9 @@ data class Credentials(
 
         fun loadOrLogin(
                 setUserNameAndPasswordFunction: CredentialsBuilder.() -> Unit
-        ): Credentials {
+        ): CredentialsBuilder {
             val f = File(preferences.dir, "accessToken.json")
-            val accessToken: AccessToken = if (f.exists()) {
+            accessToken = if (f.exists()) {
                 println("use local accessToken file")
                 f.reader().use { gson.fromJson(it, AccessToken::class.java) }
             } else {
@@ -67,9 +68,13 @@ data class Credentials(
                     f.writer().use { gson.toJson(this, it) }
                 }
             }
+            return this
+        }
+
+        fun create(): Credentials {
             return Credentials(
                     instanceURL = preferences.instance_url,
-                    accessToken = accessToken.accessToken
+                    accessToken = accessToken?.accessToken
             )
         }
     }

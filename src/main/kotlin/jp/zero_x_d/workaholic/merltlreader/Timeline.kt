@@ -21,7 +21,7 @@ class Timeline(credentials: Credentials) {
                     instanceName = credentials.instanceURL,
                     okHttpClientBuilder = OkHttpClient.Builder(),
                     gson = Gson()
-            ).accessToken(credentials.accessToken)
+            )//.accessToken(credentials.accessToken)
             .build()
     val tl = Public(client)
 

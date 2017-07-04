@@ -43,9 +43,9 @@ object MerLTLReader {
     private fun launch(vararg args: String) {
         val credentials =
                 Credentials.Builder(preferences!!)
-                        .loadOrAppRegister().loadOrLogin {
+                        .loadOrAppRegister()/*.loadOrLogin {
                     mailPass = login(preferences)
-                }
+                }*/.create()
         val tl = Timeline(credentials)
         val tts = ITTSEngine.getEngineFromPreferences(preferences!!)
 
