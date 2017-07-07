@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MerLTLReader</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="instance_settings">Instance Settings</string>
+    <string name="pref_summary_instance_url">Instance url</string>
+    <string name="pref_title_instance_url">Instance url</string>
+
+    <string name="shortcut_short_label1">LTL_TTS</string>
+    <string name="shortcut_long_label1">MerLTLReader Speak LTL</string>
+    <string name="shortcut_disable_label1">無効なショートカット</string>
+</resources>

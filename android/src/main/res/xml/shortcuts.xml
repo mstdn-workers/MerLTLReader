@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--
+    <shortcut
+        android:shortcutId="ltl_speaker"
+        android:enabled="true"
+        android:icon="@drawable/ic_volume_up"
+        android:shortcutShortLabel="@string/shortcut_short_label1"
+        android:shortcutLongLabel="@string/shortcut_long_label1"
+        android:shortcutDisabledMessage="@string/shortcut_disable_label1">
+
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="jp.zero_x_d.workaholic.merltlreader"
+            android:targetClass="jp.zero_x_d.workaholic.merltlreader.LauncherActivity" />
+
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    -->
+</shortcuts>

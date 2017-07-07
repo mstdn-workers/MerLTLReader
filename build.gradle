@@ -1,39 +1,41 @@
 group 'jp.zero_x_d.workaholic'
-version '1.0-SNAPSHOT'
+version '1.2.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.2'
+    ext.kotlin_version = '1.1.3-2'
+    ext.android_plugin_version = '3.0.0-alpha5'
 
     repositories {
-        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        jcenter()
     }
     dependencies {
+        classpath "com.android.tools.build:gradle:$android_plugin_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
-apply plugin: 'groovy'
-apply plugin: 'kotlin'
-
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' } // for mastodon4j
+    }
 }
+
+apply plugin: 'kotlin'
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile 'org.codehaus.groovy:groovy-all:2.3.11'
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
 
-    compile 'com.github.sys1yagi.mastodon4j:mastodon4j:1.1.0'
-    compile 'com.github.sys1yagi.mastodon4j:mastodon4j-rx:1.1.0'
-    compile 'org.apache.commons:commons-lang3:3.0'
-    compile 'org.luaj:luaj-jse:3.0.1'
-    //compile 'org.json:json:20170516'
-    //compile 'com.vdurmont:emoji-java:3.2.0'
-    compile 'com.kcthota:emoji4j:5.0'
-    // https://mvnrepository.com/artifact/net.harawata/appdirs
-    compile group: 'net.harawata', name: 'appdirs', version: '1.0.0'
-    compile group: 'org.slf4j', name: 'slf4j-nop', version: '1.7.25'
-    compile group: 'com.salesforceiq.augmenteddriver', name: 'AugmentedDriver', version: '1.7.6'
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }

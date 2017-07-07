@@ -1,2 +1,3 @@
 rootProject.name = 'merltlreader'
 
+include 'common', 'desktop', 'android'

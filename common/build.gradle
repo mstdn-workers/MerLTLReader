@@ -1,0 +1,17 @@
+apply plugin: 'kotlin'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    compile 'org.luaj:luaj-jse:3.0.1'
+    compile 'com.github.sys1yagi.mastodon4j:mastodon4j:1.1.0'
+    compile 'com.github.sys1yagi.mastodon4j:mastodon4j-rx:1.1.0'
+
+    //compile 'org.json:json:20170516'
+    //compile 'com.vdurmont:emoji-java:3.2.0'
+    compile 'com.kcthota:emoji4j:5.0'
+}
