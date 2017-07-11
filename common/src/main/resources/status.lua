@@ -24,8 +24,8 @@ local name_table = {
     D = "システムディー",
     lvndr = function(a) a.displayName:gsub("◆TrWgXi12CA", "") end,
     pcb = "ぱんかれ",
-    --"Do" to { _ -> "Do" },
-    --"rin_souma" to { _ -> "そうま りん"},
+    Do = "どぅー",
+    rin_souma = "そうま りん",
     pina_32 = function(a)
         return a.displayName:gsub("Pina", "ピナ")
     end,
