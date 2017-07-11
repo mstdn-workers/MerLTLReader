@@ -8,6 +8,11 @@
     <string name="instance_settings">Instance Settings</string>
     <string name="pref_summary_instance_url">Instance url</string>
     <string name="pref_title_instance_url">Instance url</string>
+    <string name="volume_settings">Volume Settings</string>
+    <string name="pref_summary_volume_master">master</string>
+    <string name="pref_title_volume_master">Master</string>
+    <string name="pref_summary_volume_name">volume of name</string>
+    <string name="pref_title_volume_name">Name</string>
 
     <string name="shortcut_short_label1">LTL_TTS</string>
     <string name="shortcut_long_label1">MerLTLReader Speak LTL</string>

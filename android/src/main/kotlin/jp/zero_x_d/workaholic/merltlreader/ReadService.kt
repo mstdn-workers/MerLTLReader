@@ -48,8 +48,6 @@ class ReadService: IntentService("ReadService") {
             while (!isTTSInitted) Thread.sleep(100)
             tts.language = Locale.JAPANESE
 
-            val name_bundle = Bundle()
-            name_bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, .3F)
             tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
                 override fun onDone(utteranceId: String?) {
                     //println("onDone")
@@ -75,6 +73,25 @@ class ReadService: IntentService("ReadService") {
             for (status in tl) {
                 while (tts.isSpeaking) Thread.sleep(100)
                 if (!running) break
+                val masterVolume = sharedPref.getInt(
+                        "pref_key_volume_master",
+                        100
+                ) / 100.0F
+                val nameVolume = sharedPref.getInt(
+                        "pref_key_volume_name",
+                        100
+                ) / 100.0F
+                val content_bundle = Bundle()
+                content_bundle.putFloat(
+                        TextToSpeech.Engine.KEY_PARAM_VOLUME,
+                        masterVolume
+                )
+                val name_bundle = Bundle()
+                name_bundle.putFloat(
+                        TextToSpeech.Engine.KEY_PARAM_VOLUME,
+                        masterVolume * nameVolume
+                )
+
                 val speech_str = status.readContent
                 println(speech_str)
                 tts.speak(
@@ -86,7 +103,7 @@ class ReadService: IntentService("ReadService") {
                 tts.speak(
                         speech_str,
                         TextToSpeech.QUEUE_ADD,
-                        null,
+                        content_bundle,
                         "toot" + status.id.toString()
                 )
                 updateNotify(

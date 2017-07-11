@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-<PreferenceCategory
-        android:title="@string/instance_settings"
-        android:key="pref_key_instance_settings">
-    <EditTextPreference
-        android:key="pref_key_instance_url"
-        android:summary="@string/pref_summary_instance_url"
-        android:title="@string/pref_title_instance_url" />
+    <PreferenceCategory
+        android:key="pref_key_instance_settings"
+        android:title="@string/instance_settings">
+        <EditTextPreference
+            android:key="pref_key_instance_url"
+            android:summary="@string/pref_summary_instance_url"
+            android:title="@string/pref_title_instance_url" />
         <!--<CheckBoxPreference
             android:key="pref_key_auto_delete"
             android:summary="@string/pref_summary_auto_delete"
@@ -22,5 +22,21 @@
             android:dependency="pref_key_auto_delete"
             android:summary="@string/pref_summary_delete_limit"
             android:title="@string/pref_title_mms_delete" ... />-->
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:key="pref_key_volume_settings"
+        android:title="@string/volume_settings">
+        <SeekBarPreference
+            android:key="pref_key_volume_master"
+            android:defaultValue="100"
+            android:summary="@string/pref_summary_volume_master"
+            android:title="@string/pref_title_volume_master"
+            android:max="100" />
+        <SeekBarPreference
+            android:key="pref_key_volume_name"
+            android:defaultValue="100"
+            android:summary="@string/pref_summary_volume_name"
+            android:title="@string/pref_title_volume_name"
+            android:max="100" />
     </PreferenceCategory>
 </PreferenceScreen>
