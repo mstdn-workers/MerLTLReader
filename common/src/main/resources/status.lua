@@ -39,6 +39,9 @@ local name_table = {
     misakayuni = function(a)
         return a.displayName:gsub("御坂優仁%(みさかゆに%)", "みさかゆに")
     end,
+    TyamEpp = function(a)
+        return a.displayName:gsub("TyamEpp", "ちゃめっぷ")
+    end,
 }
 local function name_table_proc(a)
     local id = a.acct
