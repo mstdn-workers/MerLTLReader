@@ -42,6 +42,12 @@ local name_table = {
     TyamEpp = function(a)
         return a.displayName:gsub("TyamEpp", "ちゃめっぷ")
     end,
+    Erica_Hartmann = function(a)
+        return a.displayName
+            :gsub("Neutralität", "中立")
+            :gsub("Löwe", "レーヴェ")
+            :gsub("GmbH", "ゲーエムベーハー")
+    end
 }
 local function name_table_proc(a)
     local id = a.acct
