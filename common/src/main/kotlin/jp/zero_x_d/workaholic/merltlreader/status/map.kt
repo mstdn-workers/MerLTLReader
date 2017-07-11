@@ -26,22 +26,7 @@ fun toot_convert(st: Status): String {
     toot = remove_image_url(st, toot)
     toot = remove_url(toot)
     toot = StringEscapeUtils.unescapeHtml4(toot)
-    toot = toot.replace("&apos;","'")
-    toot = toot.replace("社畜丼", "社畜どん")
-    toot = toot.replace("1日", "いちにち")
-    toot = toot.replace("１日", "いちにち")
-    toot = toot.replace("一日", "いちにち")
-    toot = toot.replace("厨二", "ちゅうに")
-    toot = toot.replace("亜人", "あじん")
-    toot = toot.replace("5000兆円", "ごせんちょうえん")
-    toot = toot.replace("++", "ぷらすぷらす")
-    toot = toot.replace("( ´•̥×•̥` )", "")
-    toot = toot.replace("〜", "ー")
-    toot = toot.replace("～", "ー")
-    toot = toot.replace("…", " ")
-    //TODO 対策: か ゙わ ゙い ゙い ゙な ゙ぁ ゙ A゛ O ゛B゛ ち゛ ゃ゛ ん゛
-    //TODO 対策: ＿人人人人人人人人人人人＿ ＞ まろやかなチキン味 ＜ ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
-    //TODO 対策:
+
     toot = toot.replace("""(?m)^>\s*""".toRegex(), "引用 ")
     return toot
 }

@@ -4,6 +4,10 @@ function string:endsWith(e)
     return self:sub(-(e:len()))==e
 end
 
+function string:unEscapeRegex()
+    return self:gsub(".", "%%%1")
+end
+
 function status:isSpam()
     local spam_suffixes = {
         "_info", "_infom", "_information"
@@ -85,8 +89,26 @@ function string:toReadable()
         :gsub("PSO2", "ぷそつ")
         :gsub("\u00e2\u009c\u0085", "")
         :gsub("mstdn-workers", "ますどんわーかーず")
-        :gsub("%.jar", "どっとじゃー")
+        :gsub((".jar"):unEscapeRegex(), "どっとじゃー")
         :gsub("秋月", "あきづき")
+        :gsub("Π", "パイ")
+        :gsub(("#^^"):unEscapeRegex(), "ﾋﾞｷﾋﾞｷ")
+        :gsub(("&apos;"):unEscapeRegex(),"'")
+        :gsub("社畜丼", "社畜どん")
+        :gsub("1日", "いちにち")
+        :gsub("１日", "いちにち")
+        :gsub("一日", "いちにち")
+        :gsub("厨二", "ちゅうに")
+        :gsub("亜人", "あじん")
+        :gsub("5000兆円", "ごせんちょうえん")
+        :gsub(("++"):unEscapeRegex(), "ぷらすぷらす")
+        :gsub(("( ´•̥×•̥` )"):unEscapeRegex(), "")
+        :gsub("〜", "ー")
+        :gsub("～", "ー")
+        :gsub("…", " ")
+        -- TODO 対策: か ゙わ ゙い ゙い ゙な ゙ぁ ゙ A゛ O ゛B゛ ち゛ ゃ゛ ん゛
+        -- TODO 対策: ＿人人人人人人人人人人人＿ ＞ まろやかなチキン味 ＜ ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
+        -- TODO 対策:
 end
 
 return status
