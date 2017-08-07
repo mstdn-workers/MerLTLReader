@@ -171,7 +171,11 @@ class ReadService: IntentService("ReadService") {
             .setVisibility(VISIBILITY_PUBLIC)
             .setSmallIcon(R.drawable.ic_mastodon_logo)
             .addAction(android.R.drawable.ic_menu_delete, "Kill", deleteIntent)
-            .addAction(action)
+            .apply {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                    addAction(action)
+                }
+            }
             .setDeleteIntent(deleteIntent)
             .setAutoCancel(true) }
 
