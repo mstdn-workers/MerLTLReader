@@ -23,13 +23,14 @@ class AppDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "AppDat
 
     override fun onCreate(db: SQLiteDatabase) {
         db.createTable("AppRegistration", true,
-                "instance_url" to TEXT + PRIMARY_KEY + UNIQUE,
+                "instance_url" to SqlType.create("TEXT PRIMARY_KEY UNIQUE"),
                 "json" to TEXT)
         // Here you create tables
         db.createTable("AccessToken", true,
-                "instance_url" to TEXT + PRIMARY_KEY + UNIQUE,
-                "user" to TEXT + PRIMARY_KEY + UNIQUE,
-                "json" to TEXT)
+                "instance_url" to TEXT + NOT_NULL,
+                "user" to TEXT + NOT_NULL,
+                "json" to TEXT,
+                "PRIMARY KEY (instance_url, user)" to SqlType.create(""))
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

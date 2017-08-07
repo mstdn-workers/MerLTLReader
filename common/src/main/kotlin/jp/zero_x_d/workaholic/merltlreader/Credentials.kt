@@ -33,39 +33,53 @@ data class Credentials(
         }
         private val apps: Apps by lazy { Apps(client) }
 
-        fun loadOrAppRegister() = apply {
-            val f = File(preferences.dir, "appRegistration.json")
-            appRegistration = if (f.exists()) {
-                println("use local registration file")
-                f.reader().use { gson.fromJson(it, AppRegistration::class.java) }
-            } else {
-                apps.createApp(
+        fun loadOrAppRegister(
+                loadFunction: CredentialsBuilder.() -> AppRegistration? = {
+                    val f = File(preferences.dir, "appRegistration.json")
+                    if (f.exists()) {
+                        println("use local registration file")
+                        f.reader().use { gson.fromJson(it, AppRegistration::class.java) }
+                    } else null
+                },
+                saveFunction: (appRegistration: AppRegistration) -> Unit = { reg ->
+                    val f = File(preferences.dir, "appRegistration.json")
+                    f.writer().use{ gson.toJson(reg, it) }
+                }
+        ): CredentialsBuilder {
+            appRegistration = loadFunction()
+            if (appRegistration == null) {
+                appRegistration = apps.createApp(
                         clientName = preferences.appName,
                         scope = preferences.scope
-                ).execute().apply {
-                    f.writer().use { gson.toJson(this, it) }
-                }
+                ).execute().apply { saveFunction(this) }
             }
+            return this
         }
 
         fun loadOrLogin(
-                setUserNameAndPasswordFunction: CredentialsBuilder.() -> Unit
+                setUserNameAndPasswordFunction: CredentialsBuilder.() -> Unit,
+                loadFunction: CredentialsBuilder.() -> AccessToken? = {
+                    val f = File(preferences.dir, "accessToken.json")
+                    if (f.exists()) {
+                        println("use local accessToken file")
+                        f.reader().use { gson.fromJson(it, AccessToken::class.java) }
+                    } else null
+                },
+                saveFunction: (accessToken: AccessToken) -> Unit = { token ->
+                    val f = File(preferences.dir, "accessToken.json")
+                    f.writer().use { gson.toJson(token, it) }
+                }
         ): CredentialsBuilder {
-            val f = File(preferences.dir, "accessToken.json")
-            accessToken = if (f.exists()) {
-                println("use local accessToken file")
-                f.reader().use { gson.fromJson(it, AccessToken::class.java) }
-            } else {
+            accessToken = loadFunction()
+            if (accessToken == null) {
                 setUserNameAndPasswordFunction()
-                apps.postUserNameAndPassword(
+                accessToken = apps.postUserNameAndPassword(
                         clientId = appRegistration!!.clientId,
                         clientSecret = appRegistration!!.clientSecret,
                         scope = preferences.scope,
                         userName = requireNotNull(mailPass?.mail),
                         password = requireNotNull(mailPass?.pass)
-                ).execute().apply {
-                    f.writer().use { gson.toJson(this, it) }
-                }
+                ).execute().apply { saveFunction(this) }
             }
             return this
         }

@@ -16,6 +16,8 @@ import android.support.v4.app.RemoteInput
 import android.util.Log
 import com.google.gson.Gson
 import com.sys1yagi.mastodon4j.MastodonClient
+import jp.zero_x_d.workaholic.merltlreader.db.database
+import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
 import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import jp.zero_x_d.workaholic.merltlreader.status.readName
 import jp.zero_x_d.workaholic.merltlreader.status.remove_tag
@@ -179,11 +181,12 @@ class ReadService: IntentService("ReadService") {
             context?.getSystemService(ReadService::class.java)?.updateNotify("a")
             thread {
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
-                val instance_url = sharedPref.getString("pref_key_instance_url", "")
-                //val access_key
+                val instance_url = sharedPref.getString("pref_key_instance_url", null)
+                val mail = sharedPref.getString("pref_key_email", null)
+                val accessToken = context!!.database.getAccessToken(instance_url, mail)
                 val client: MastodonClient =
                         MastodonClient.Builder(instance_url, OkHttpClient.Builder(), Gson())
-//                        .accessToken()
+                        .accessToken(requireNotNull(accessToken).accessToken)
                         .build()
                 client.post("statuses", FormBody.Builder().add("status", toot).build())
             }.join()

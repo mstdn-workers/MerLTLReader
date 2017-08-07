@@ -21,8 +21,9 @@ class Timeline(credentials: Credentials) {
                     instanceName = credentials.instanceURL,
                     okHttpClientBuilder = OkHttpClient.Builder(),
                     gson = Gson()
-            )//.accessToken(credentials.accessToken)
-            .build()
+            ).apply {
+                credentials.accessToken?.let { this.accessToken(it) }
+            }.build()
     val tl = Public(client)
 
     operator fun iterator() = this
