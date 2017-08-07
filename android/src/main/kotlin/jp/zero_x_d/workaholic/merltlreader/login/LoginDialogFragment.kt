@@ -16,6 +16,8 @@ import jp.zero_x_d.workaholic.merltlreader.LoginData
 import jp.zero_x_d.workaholic.merltlreader.Preferences
 import jp.zero_x_d.workaholic.merltlreader.R
 import jp.zero_x_d.workaholic.merltlreader.db.*
+import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
+import okhttp3.OkHttpClient
 
 
 /**
@@ -58,7 +60,10 @@ class LoginDialogFragment: DialogFragment() {
                     )
                     MyAsyncTask(activity) { context ->
                         try {
-                            val credentials = Credentials.Builder(pref).loadOrAppRegister(
+                            val credentials = Credentials.Builder(
+                                    pref,
+                                    OkHttpClient.Builder().setTLSv12()
+                            ).loadOrAppRegister(
                                     loadFunction = { db.getAppRegistration(instance_url) },
                                     saveFunction = { db.setAppRegistration(instance_url, it) }
                             ).loadOrLogin(

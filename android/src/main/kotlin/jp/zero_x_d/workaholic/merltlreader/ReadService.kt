@@ -21,6 +21,7 @@ import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
 import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import jp.zero_x_d.workaholic.merltlreader.status.readName
 import jp.zero_x_d.workaholic.merltlreader.status.remove_tag
+import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import org.luaj.vm2.Globals
@@ -91,7 +92,10 @@ class ReadService: IntentService("ReadService") {
             })
             val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
             val instance_url = sharedPref.getString("pref_key_instance_url", "")
-            val tl = Timeline(Credentials(instance_url, null))
+            val tl = Timeline(
+                    Credentials(instance_url, null),
+                    OkHttpClient.Builder().setTLSv12()
+            )
 
             for (status in tl) {
                 while (tts.isSpeaking) Thread.sleep(100)
@@ -205,7 +209,10 @@ class ReadService: IntentService("ReadService") {
                 val mail = sharedPref.getString("pref_key_email", null)
                 val accessToken = context!!.database.getAccessToken(instance_url, mail)
                 val client: MastodonClient =
-                        MastodonClient.Builder(instance_url, OkHttpClient.Builder(), Gson())
+                        MastodonClient.Builder(
+                                instance_url,
+                                OkHttpClient.Builder().setTLSv12(),
+                                Gson())
                         .accessToken(requireNotNull(accessToken).accessToken)
                         .build()
                 client.post("statuses", FormBody.Builder().add("status", toot).build())
