@@ -199,7 +199,6 @@ class ReadService: IntentService("ReadService") {
         override fun onReceive(context: Context?, intent: Intent?) {
             val remoteInput = RemoteInput.getResultsFromIntent(intent)
             val toot = remoteInput?.getString(SEND_TOOT)
-            context?.getSystemService(ReadService::class.java)?.updateNotify("a")
             thread {
                 val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
                 val instance_url = sharedPref.getString("pref_key_instance_url", null)
@@ -211,7 +210,6 @@ class ReadService: IntentService("ReadService") {
                         .build()
                 client.post("statuses", FormBody.Builder().add("status", toot).build())
             }.join()
-            context?.getSystemService(ReadService::class.java)?.updateNotify("")
         }
     }
 }
