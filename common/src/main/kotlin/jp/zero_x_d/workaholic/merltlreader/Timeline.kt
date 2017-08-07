@@ -12,14 +12,16 @@ import java.util.LinkedList
 /**
  * Created by D on 17/06/01.
  */
-class Timeline(credentials: Credentials) {
+class Timeline(
+        credentials: Credentials,
+        okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()) {
     private val queue = LinkedList<Status>()
     var since: Long? = null
 
     val client: MastodonClient =
             MastodonClient.Builder(
                     instanceName = credentials.instanceURL,
-                    okHttpClientBuilder = OkHttpClient.Builder(),
+                    okHttpClientBuilder = okHttpClientBuilder,
                     gson = Gson()
             ).apply {
                 credentials.accessToken?.let { this.accessToken(it) }

@@ -19,7 +19,10 @@ data class Credentials(
         val instanceURL: String,
         val accessToken: String?
 ) {
-    class CredentialsBuilder(val preferences: Preferences) {
+    class CredentialsBuilder(
+            val preferences: Preferences,
+            okHttpClientBuilder: OkHttpClient.Builder
+    ) {
         private var appRegistration: AppRegistration? = null
         private var accessToken: AccessToken? = null
         private val gson by lazy { Gson() }
@@ -27,7 +30,7 @@ data class Credentials(
         private val client: MastodonClient by lazy {
             MastodonClient.Builder(
                     preferences.instance_url,
-                    OkHttpClient.Builder(),
+                    okHttpClientBuilder,
                     gson
             ).build()
         }
@@ -93,7 +96,9 @@ data class Credentials(
     }
 
     companion object {
-        fun Builder(preferences: Preferences) =
-                CredentialsBuilder(preferences)
+        fun Builder(
+                preferences: Preferences,
+                okHttpClientBuilder: OkHttpClient.Builder = OkHttpClient.Builder()
+        ) = CredentialsBuilder(preferences, okHttpClientBuilder)
     }
 }
