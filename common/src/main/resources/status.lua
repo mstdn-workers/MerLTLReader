@@ -69,7 +69,7 @@ local function remove_instance_str(name)
     if not name then return nil end
     for _, w in ipairs(words) do
         for _, fmt in ipairs(formats) do
-            name = name:gsub(fmt:format(w), "")
+            name = name:gsub(fmt:format(w)..'$', "")
         end
     end
     return name
