@@ -13,6 +13,8 @@
     <string name="password">Password</string>
     <string name="signin">Sign in</string>
     <string name="cancel">Cancel</string>
+    <string name="compose_form_publish_loud">トゥート！</string>
+    <string name="compose_form_placeholder">進捗どうですか？</string>
     <string name="requireInstanceURL">please set Instance URL</string>
     <string name="volume_settings">Volume Settings</string>
     <string name="pref_summary_volume_master">master</string>

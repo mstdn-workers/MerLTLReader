@@ -160,10 +160,10 @@ class ReadService: IntentService("ReadService") {
     ) }
 
     val remoteInput by lazy { RemoteInput.Builder(SEND_TOOT)
-            .setLabel("進捗どうですか？")
+            .setLabel(getString(R.string.compose_form_placeholder))
             .build() }
     val action by lazy { NotificationCompat.Action.Builder(android.R.drawable.ic_menu_send,
-            "トゥート！", tootPendingIntent)
+            getString(R.string.compose_form_publish_loud), tootPendingIntent)
             .addRemoteInput(remoteInput)
             .build() }
 
