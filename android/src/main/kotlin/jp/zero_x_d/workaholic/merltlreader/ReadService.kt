@@ -36,6 +36,27 @@ val SEND_TOOT = "send_toot"
 val NF_ID = 1
 class ReadService: IntentService("ReadService") {
     var running = false
+
+    fun TextToSpeech.speak(
+            text: String,
+            queueMode: Int,
+            params: TTSParams,
+            utteranceId: String
+    ): Int {
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            val paramsBundle = Bundle().apply {
+                putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, params.volume)
+            }
+            speak(text, queueMode, paramsBundle, utteranceId)
+        } else {
+            val paramsHashMap = hashMapOf(
+                    TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to utteranceId,
+                    TextToSpeech.Engine.KEY_PARAM_VOLUME to params.volume.toString()
+            )
+            speak(text, queueMode, paramsHashMap)
+        }
+    }
+
     override fun onHandleIntent(intent: Intent?) {
         var isTTSInitted = false
         val tts = TextToSpeech(applicationContext, { status ->
@@ -79,19 +100,15 @@ class ReadService: IntentService("ReadService") {
                         "pref_key_volume_master",
                         100
                 ) / 100.0F
-                val nameVolume = sharedPref.getInt(
+                val nameVolumeM = sharedPref.getInt(
                         "pref_key_volume_name",
                         100
                 ) / 100.0F
-                val content_bundle = Bundle()
-                content_bundle.putFloat(
-                        TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                        masterVolume
+                val content_params = TTSParams(
+                        volume = masterVolume
                 )
-                val name_bundle = Bundle()
-                name_bundle.putFloat(
-                        TextToSpeech.Engine.KEY_PARAM_VOLUME,
-                        masterVolume * nameVolume
+                val name_params = TTSParams(
+                        volume = masterVolume * nameVolumeM
                 )
 
                 val speech_str = status.readContent
@@ -99,13 +116,13 @@ class ReadService: IntentService("ReadService") {
                 tts.speak(
                         status.readName,
                         TextToSpeech.QUEUE_ADD,
-                        name_bundle,
+                        name_params,
                         status.id.toString() + status.account?.userName
                 )
                 tts.speak(
                         speech_str,
                         TextToSpeech.QUEUE_ADD,
-                        content_bundle,
+                        content_params,
                         "toot" + status.id.toString()
                 )
                 updateNotify(
