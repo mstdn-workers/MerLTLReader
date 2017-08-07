@@ -55,8 +55,7 @@ class LoginDialogFragment: DialogFragment() {
 
                     val pref = Preferences(
                             appName = getString(R.string.app_name),
-                            instance_url = instance_url,
-                            baseDir = activity.dataDir
+                            instance_url = instance_url
                     )
                     MyAsyncTask(activity) { context ->
                         try {

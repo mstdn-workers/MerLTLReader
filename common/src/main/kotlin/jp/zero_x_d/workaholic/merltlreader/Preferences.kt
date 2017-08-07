@@ -5,8 +5,8 @@ import java.io.File
 
 data class Preferences(
         val appName: String,
-        val baseDir: File,
         val instance_url: String,
+        val baseDir: File? = null,
         val scope: Scope = Scope(Scope.Name.ALL),
         val tts_engine: String = "auto"
 ) {
@@ -23,7 +23,7 @@ data class Preferences(
             fun create(): Preferences {
                 return Preferences(
                         appName = requireNotNull(appName),
-                        baseDir = requireNotNull(baseDir),
+                        baseDir = baseDir,
                         instance_url = "mstdn-workers.com"
                 )
             }
