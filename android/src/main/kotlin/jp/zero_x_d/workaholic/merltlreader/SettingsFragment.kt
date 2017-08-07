@@ -34,8 +34,8 @@ class SettingsFragment: PreferenceFragment() {
                 setSummary4InstanceURL(newValue as String?)
                 val mail = PreferenceManager.getDefaultSharedPreferences(activity)
                         .getString("pref_key_email", null)
-                if (mail != null
-                        && activity.database.getAccessToken(newValue as String, mail) == null) {
+                if (mail == null
+                        || activity.database.getAccessToken(newValue as String, mail) == null) {
                     LoginDialogFragment().show(fragmentManager, "login")
                 }
                 true
