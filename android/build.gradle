@@ -37,6 +37,10 @@ android {
     }
 }
 
+buildscript {
+    ext.anko_version = '0.10.1'
+}
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
 
@@ -55,4 +59,6 @@ dependencies {
     compile 'com.android.support:support-v4:26.0.0-beta2'
     compile 'com.android.support:design:26.0.0-beta2'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile "org.jetbrains.anko:anko-sqlite:$anko_version"
 }
