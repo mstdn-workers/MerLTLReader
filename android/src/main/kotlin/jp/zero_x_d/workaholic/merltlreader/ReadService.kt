@@ -194,6 +194,13 @@ class ReadService: IntentService("ReadService") {
 
     val notificationBuilder by lazy { NotificationCompat.Builder(applicationContext)
             .setVisibility(VISIBILITY_PUBLIC)
+            .apply {
+                if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    setSmallIcon(applicationInfo.icon)
+                } else {
+                    setSmallIcon(R.drawable.ic_mastodon_logo)
+                }
+            }
             .setSmallIcon(applicationInfo.icon)
             .setContentIntent(ltlActivityIntent)
             .addAction(android.R.drawable.ic_menu_delete, "Kill", deleteIntent)
