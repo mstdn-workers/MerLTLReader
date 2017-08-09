@@ -24,8 +24,8 @@
             android:title="@string/pref_title_mms_delete" ... />-->
     </PreferenceCategory>
     <PreferenceCategory
-        android:key="pref_key_volume_settings"
-        android:title="@string/volume_settings">
+        android:key="pref_key_sound_settings"
+        android:title="@string/sound_settings">
         <SeekBarPreference
             android:key="pref_key_volume_master"
             android:defaultValue="100"
