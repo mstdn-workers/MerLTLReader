@@ -135,6 +135,7 @@ class ReadService: IntentService("ReadService") {
 
                 val speech_str = status.readContent
                 println(speech_str)
+                LTLActivity.add(status)
                 tts.speak(
                         status.readName,
                         TextToSpeech.QUEUE_ADD,

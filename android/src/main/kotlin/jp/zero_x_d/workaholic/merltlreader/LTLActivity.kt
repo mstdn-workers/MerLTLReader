@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.preference.PreferenceManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
@@ -20,9 +21,11 @@ import android.widget.ImageButton
 import android.widget.Toast
 import com.google.gson.Gson
 import com.sys1yagi.mastodon4j.MastodonClient
+import com.sys1yagi.mastodon4j.api.entity.Status
 import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException
 import jp.zero_x_d.workaholic.merltlreader.db.database
 import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
+import jp.zero_x_d.workaholic.merltlreader.status.readContent_
 import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -31,6 +34,9 @@ import java.io.IOException
 import kotlin.concurrent.thread
 
 class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private val toots: ArrayList<TootAdapter.Toot> = arrayListOf()
+    private val adapter = TootAdapter(toots)
+
     class PostTask(
             builder: MastodonClient.Builder,
             val doInBackground_: PostTask.() -> Unit = {},
@@ -123,6 +129,9 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                 }
             }
         }
+
+        val ltlRecyclerView = findViewById<RecyclerView>(R.id.LTL)
+        ltlRecyclerView.adapter = adapter
     }
 
 
@@ -190,5 +199,36 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
         val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
         drawer.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        instance = this
+    }
+
+    override fun onPause() {
+        instance?.toots?.apply { synchronized(this) { clear() }}
+        instance?.adapter?.notifyDataSetChanged()
+        instance = null
+        super.onPause()
+    }
+
+    companion object {
+        private var instance: LTLActivity? = null
+        val handler = Handler()
+
+        fun add(toot: Status) {
+            handler.post {
+                instance?.toots?.apply {
+                    synchronized(this) {
+                        add(0, TootAdapter.Toot(
+                                toot.account!!.displayName,
+                                toot.readContent_!!
+                        ))
+                    }
+                }
+                instance?.adapter?.notifyItemInserted(0)
+            }
+        }
     }
 }
