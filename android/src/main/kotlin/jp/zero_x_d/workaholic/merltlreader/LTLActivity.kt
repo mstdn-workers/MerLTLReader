@@ -36,6 +36,7 @@ import kotlin.concurrent.thread
 class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private val toots: ArrayList<TootAdapter.Toot> = arrayListOf()
     private val adapter = TootAdapter(toots)
+    private val ltlRecyclerView by lazy { findViewById<RecyclerView>(R.id.LTL)!! }
 
     class PostTask(
             builder: MastodonClient.Builder,
@@ -130,7 +131,6 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
             }
         }
 
-        val ltlRecyclerView = findViewById<RecyclerView>(R.id.LTL)
         ltlRecyclerView.adapter = adapter
     }
 
@@ -219,15 +219,18 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
 
         fun add(toot: Status) {
             handler.post {
-                instance?.toots?.apply {
-                    synchronized(this) {
-                        add(0, TootAdapter.Toot(
+                instance?.apply {
+                    // http://qiita.com/u_nation/items/282e3220ae863e6d21e5
+                    val scrollTop = !ltlRecyclerView.canScrollVertically(-1)
+                    synchronized(toots) {
+                        toots.add(0, TootAdapter.Toot(
                                 toot.account!!.displayName,
                                 toot.readContent_!!
                         ))
                     }
+                    adapter.notifyItemInserted(0)
+                    if (scrollTop) ltlRecyclerView.scrollToPosition(0)
                 }
-                instance?.adapter?.notifyItemInserted(0)
             }
         }
     }
