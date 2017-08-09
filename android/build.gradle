@@ -68,4 +68,5 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     compile "org.jetbrains.anko:anko-sqlite:$anko_version"
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

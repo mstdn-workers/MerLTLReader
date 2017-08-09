@@ -233,7 +233,8 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                     synchronized(toots) {
                         toots.add(0, TootAdapter.Toot(
                                 toot.account!!.displayName,
-                                toot.readContent_!!
+                                toot.readContent_!!,
+                                toot.account!!.avatar
                         ))
                     }
                     adapter.notifyItemInserted(0)

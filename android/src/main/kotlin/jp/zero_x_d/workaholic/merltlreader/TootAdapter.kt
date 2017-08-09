@@ -4,7 +4,9 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 
 /**
  * Created by D on 17/08/09.
@@ -27,6 +29,9 @@ class TootAdapter(
         val toot = synchronized(toots) { toots[position] }
         holder.displayName.text = toot.displayName
         holder.content.text = toot.content
+        toots[position].accountIconURL?.apply {
+            Picasso.with(holder.icon.context).load(this).into(holder.icon)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -36,7 +41,11 @@ class TootAdapter(
     class ViewHolder(cardView: CardView): RecyclerView.ViewHolder(cardView) {
         val displayName = cardView.findViewById<TextView>(R.id.account_display_name)!!
         val content = cardView.findViewById<TextView>(R.id.toot_content)!!
+        val icon = cardView.findViewById<ImageView>(R.id.account_icon)!!
     }
 
-    data class Toot(val displayName: String, val content: String)
+    data class Toot(
+            val displayName: String,
+            val content: String,
+            val accountIconURL: String? = null)
 }
