@@ -38,5 +38,12 @@
             android:summary="@string/pref_summary_volume_name"
             android:title="@string/pref_title_volume_name"
             android:max="100" />
+        <ListPreference
+            android:key="pref_key_stream_type"
+            android:title="@string/pref_title_stream_type"
+            android:summary="@string/pref_summary_stream_type"
+            android:entries="@array/stream_type"
+            android:entryValues="@array/stream_type"
+            android:defaultValue="STREAM_MUSIC"/>
     </PreferenceCategory>
 </PreferenceScreen>

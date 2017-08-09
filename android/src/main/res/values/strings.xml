@@ -21,6 +21,8 @@
     <string name="pref_title_volume_master">Master</string>
     <string name="pref_summary_volume_name">volume of name</string>
     <string name="pref_title_volume_name">Name</string>
+    <string name="pref_summary_stream_type">stream type of text-to-speech</string>
+    <string name="pref_title_stream_type">Stream type</string>
 
     <string name="shortcut_short_label1">LTL_TTS</string>
     <string name="shortcut_long_label1">MerLTLReader Speak LTL</string>

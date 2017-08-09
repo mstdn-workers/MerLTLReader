@@ -6,6 +6,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.AudioManager
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.speech.tts.TextToSpeech
@@ -47,12 +48,14 @@ class ReadService: IntentService("ReadService") {
         return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             val paramsBundle = Bundle().apply {
                 putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME, params.volume)
+                putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, params.streamType)
             }
             speak(text, queueMode, paramsBundle, utteranceId)
         } else {
             val paramsHashMap = hashMapOf(
                     TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID to utteranceId,
-                    TextToSpeech.Engine.KEY_PARAM_VOLUME to params.volume.toString()
+                    TextToSpeech.Engine.KEY_PARAM_VOLUME to params.volume.toString(),
+                    TextToSpeech.Engine.KEY_PARAM_STREAM to params.streamType.toString()
             )
             speak(text, queueMode, paramsHashMap)
         }
@@ -100,6 +103,19 @@ class ReadService: IntentService("ReadService") {
             for (status in tl) {
                 while (tts.isSpeaking) Thread.sleep(100)
                 if (!running) break
+                val streamTypes = mapOf(
+                        "STREAM_ALARM" to AudioManager.STREAM_ALARM,
+                        "STREAM_DTMF" to AudioManager.STREAM_DTMF,
+                        "STREAM_MUSIC" to AudioManager.STREAM_MUSIC,
+                        "STREAM_NOTIFICATION" to AudioManager.STREAM_NOTIFICATION,
+                        "STREAM_RING" to AudioManager.STREAM_RING,
+                        "STREAM_SYSTEM" to AudioManager.STREAM_SYSTEM,
+                        "STREAM_VOICE_CALL" to AudioManager.STREAM_VOICE_CALL
+                )
+                val streamType = sharedPref.getString(
+                        "pref_key_stream_type",
+                        "USE_DEFAULT_STREAM_TYPE"
+                )
                 val masterVolume = sharedPref.getInt(
                         "pref_key_volume_master",
                         100
@@ -109,10 +125,12 @@ class ReadService: IntentService("ReadService") {
                         100
                 ) / 100.0F
                 val content_params = TTSParams(
-                        volume = masterVolume
+                        volume = masterVolume,
+                        streamType = streamTypes[streamType]!!
                 )
                 val name_params = TTSParams(
-                        volume = masterVolume * nameVolumeM
+                        volume = masterVolume * nameVolumeM,
+                        streamType = streamTypes[streamType]!!
                 )
 
                 val speech_str = status.readContent
