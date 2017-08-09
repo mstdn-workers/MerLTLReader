@@ -14,4 +14,11 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- http://qiita.com/wasnot/items/dfc33bb91f64abfec04c -->
+    <!-- http://exception-think.hatenablog.com/entry/20161003/1475509106 -->
+    <!-- https://stackoverflow.com/questions/
+           32070670/preferencefragmentcompat-requires-preferencetheme-to-be-set -->
+    <style name="AppTheme.SettingsTheme" parent="AppTheme.NoActionBar">
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
 </resources>

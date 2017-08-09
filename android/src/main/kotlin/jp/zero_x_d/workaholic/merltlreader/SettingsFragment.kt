@@ -1,8 +1,8 @@
 package jp.zero_x_d.workaholic.merltlreader
 
 import android.os.Bundle
-import android.preference.EditTextPreference
-import android.preference.PreferenceFragment
+import android.support.v7.preference.EditTextPreference
+import android.support.v14.preference.PreferenceFragment
 import android.preference.PreferenceManager
 import jp.zero_x_d.workaholic.merltlreader.db.database
 import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
@@ -13,8 +13,7 @@ import jp.zero_x_d.workaholic.merltlreader.login.LoginDialogFragment
  * Created by quartz on 17/05/20.
  */
 class SettingsFragment: PreferenceFragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
 
         addPreferencesFromResource(R.xml.preferences)
 
