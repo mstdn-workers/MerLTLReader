@@ -74,9 +74,17 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        fab.setOnClickListener { _ ->
+        val fab_startReading = findViewById<FloatingActionButton>(R.id.fab_start)
+        val fab_stopReading = findViewById<FloatingActionButton>(R.id.fab_stop)
+        fab_startReading.setOnClickListener { _ ->
             startActivity(Intent(applicationContext, LauncherActivity::class.java))
+            fab_startReading.hide()
+            fab_stopReading.show()
+        }
+        fab_stopReading.setOnClickListener { _ ->
+            sendBroadcast(Intent(applicationContext, ReadService.DeleteReceiver::class.java))
+            fab_stopReading.hide()
+            fab_startReading.show()
         }
 
 
