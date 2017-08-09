@@ -16,6 +16,7 @@
     <string name="compose_form_publish_loud">トゥート！</string>
     <string name="compose_form_placeholder">進捗どうですか？</string>
     <string name="requireInstanceURL">please set Instance URL</string>
+    <string name="requireLogin">please login</string>
     <string name="sound_settings">Sound Settings</string>
     <string name="pref_summary_volume_master">master</string>
     <string name="pref_title_volume_master">Master</string>

@@ -1,20 +1,65 @@
 package jp.zero_x_d.workaholic.merltlreader
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.preference.PreferenceManager
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.Toast
+import com.google.gson.Gson
+import com.sys1yagi.mastodon4j.MastodonClient
+import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException
+import jp.zero_x_d.workaholic.merltlreader.db.database
+import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
+import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
+import okhttp3.FormBody
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import java.io.IOException
+import kotlin.concurrent.thread
 
 class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    class PostTask(
+            builder: MastodonClient.Builder,
+            val doInBackground_: PostTask.() -> Unit = {},
+            val onPostExecute_: (Response?) -> Unit = { _ -> },
+            val onExeption: PostTask.(Mastodon4jRequestException) -> Unit = { e ->
+                e.printStackTrace()
+            }
+    ): AsyncTask<String, Unit, Response>() {
+        val client by lazy { builder.build() }
+        override fun doInBackground(vararg p0: String?): Response? {
+            try {
+                doInBackground_()
+                return client.post(
+                        "statuses",
+                        FormBody.Builder().add("status", p0[0]).build()
+                )
+            } catch (e: Mastodon4jRequestException) {
+                onExeption(e)
+            }
+            return null
+        }
+        override fun onPostExecute(result: Response?) {
+            onPostExecute_(result)
+            super.onPostExecute(result)
+        }
+        fun post(toot: String): AsyncTask<String, Unit, Response>? {
+            return execute(toot)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +81,48 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
 
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
+
+        val tootEditText = findViewById<EditText>(R.id.edit_reply)
+        val sendButton = findViewById<ImageButton>(R.id.button_send)
+        sendButton.setOnClickListener { _ ->
+            val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
+            val instanceURL: String? = sharedPref.getString("pref_key_instance_url", null)
+            val email: String? = sharedPref.getString("pref_key_email", null)
+            if ((instanceURL != null) && (email != null)) {
+                val text = tootEditText.text.toString()
+                if (text.isNotBlank()) {
+                    val accessToken = database.getAccessToken(instanceURL, email)
+                    if (accessToken != null) {
+                        val handler = Handler()
+                        PostTask(
+                                builder = MastodonClient.Builder(
+                                        instanceURL,
+                                        OkHttpClient.Builder().setTLSv12(),
+                                        Gson()
+                                ).accessToken(accessToken.accessToken),
+                                onPostExecute_ = { response ->
+                                    if (response?.isSuccessful ?: false) {
+                                        tootEditText.text.clear()
+                                    } else {
+                                        Toast.makeText(this, "post failed", Toast.LENGTH_LONG).show()
+                                    }
+                                },
+                                onExeption = { _ ->
+                                    handler.post {
+                                        Toast.makeText(applicationContext, "post failed", Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                        ).post(text)
+                    } else {
+                        Toast.makeText(
+                                this,
+                                getString(R.string.requireLogin),
+                                Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+        }
     }
 
 
