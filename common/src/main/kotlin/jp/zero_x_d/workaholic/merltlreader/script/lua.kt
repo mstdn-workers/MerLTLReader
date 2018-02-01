@@ -14,14 +14,15 @@ private val defaultPackagePath = listOf(
         "?.lua"
 ).joinToString(";")
 
-private val g by lazy {
+private var g = newAppDefaultGlobals()
+
+private fun newAppDefaultGlobals() =
     JsePlatform.debugGlobals().apply {
         setPackagePath(defaultPackagePath)
         load(HTMLLib())
         println("load kotlin lib")
         load(KotlinLib())
     }
-}
 
 private fun Globals.setPackagePath(path: String) = load("package.path = '$path'").call()
 private fun Globals.getPackagePath() = load("return package.path").call()
@@ -31,6 +32,11 @@ object Lua {
     fun require(lib: String): LuaValue {
         val returnLuaValue = g.require(lib)
         return returnLuaValue
+    }
+
+    fun reload() {
+        g = newAppDefaultGlobals()
+        TODO()
     }
 
     var packagePath: String

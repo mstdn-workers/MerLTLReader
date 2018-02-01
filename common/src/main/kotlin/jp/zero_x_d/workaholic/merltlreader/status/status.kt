@@ -10,16 +10,12 @@ import org.luaj.vm2.lib.jse.JsePlatform
  */
 
 
-private val g by lazy {
-    Lua.globals
-}
-private val lua_status_lib by lazy {
-    g.load("return require('status')").call()
-}
+private val lua_status_lib get() =
+    Lua.globals.load("return require('status')").call()
 
-private val lIsSpam by lazy { lua_status_lib.get("isSpam") }
-private val lReadName by lazy { lua_status_lib.get("readName") }
-private val lReadContent by lazy { lua_status_lib.get("readContent") }
+private val lIsSpam get() = lua_status_lib.get("isSpam")
+private val lReadName get() = lua_status_lib.get("readName")
+private val lReadContent get() = lua_status_lib.get("readContent")
 
 val Status.isSpam: Boolean
     get() = lIsSpam.call(valueOf(this)).toboolean()
