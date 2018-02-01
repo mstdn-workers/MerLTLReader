@@ -25,7 +25,9 @@ class GUIApp: Application() {
         }
 
         MerLTLReader.onStatus += { status ->
-            logArea.appendText(status.readContent + "\n")
+            Platform.runLater {
+                logArea.appendText(status.readContent + "\n")
+            }
         }
 
         root.children.add(logArea)

@@ -8,9 +8,8 @@ import org.luaj.vm2.LuaValue.*
  * Created by D on 17/06/24.
  */
 
-inline fun valueOf(long: Long?): LuaValue {
-    return if (long == null) valueOf(long.toString()) else NIL
-}
+inline fun valueOf(long: Long?): LuaValue = long?.let { valueOf(it.toString()) }?: NIL
+inline fun valueOf(str: String?): LuaValue = str?.let { LuaValue.valueOf(it) }?: NIL
 
 fun valueOf(mention: Mention): LuaValue = tableOf(arrayOf(
         valueOf("acct"), valueOf(mention.acct),
