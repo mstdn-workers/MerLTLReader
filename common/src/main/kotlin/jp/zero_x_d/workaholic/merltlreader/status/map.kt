@@ -14,8 +14,10 @@ fun remove_url(s: String) = s.replace(
 fun remove_image_url(st: Status, s: String): String {
     var toot = s
     st.mediaAttachments.forEach { media_url ->
-        toot = toot.replace(media_url.textUrl,
-                (if (st.isSensitive) "不適切" else "") + "画像")
+        if (media_url.textUrl is String) {
+            toot = toot.replace(media_url.textUrl!!,
+                    (if (st.isSensitive) "不適切" else "") + "画像")
+        }
     }
     return toot
 }
