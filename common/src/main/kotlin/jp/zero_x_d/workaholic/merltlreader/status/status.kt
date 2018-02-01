@@ -19,7 +19,7 @@ private val lua_status_lib by lazy {
 
 private val lIsSpam by lazy { lua_status_lib.get("isSpam") }
 private val lReadName by lazy { lua_status_lib.get("readName") }
-private val lReadContent by lazy { g.get("string").get("toReadable") }
+private val lReadContent by lazy { lua_status_lib.get("readContent") }
 
 val Status.isSpam: Boolean
     get() = lIsSpam.call(valueOf(this)).toboolean()
