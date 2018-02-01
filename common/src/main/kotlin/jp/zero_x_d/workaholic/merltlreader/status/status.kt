@@ -10,8 +10,7 @@ import org.luaj.vm2.lib.jse.JsePlatform
  */
 
 
-private val lua_status_lib get() =
-    Lua.globals.load("return require('status')").call()
+private val lua_status_lib get() = Lua.require("status")
 
 private val lIsSpam get() = lua_status_lib.get("isSpam")
 private val lReadName get() = lua_status_lib.get("readName")
