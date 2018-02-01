@@ -41,6 +41,6 @@ task executableJar(type: Jar, dependsOn: jar) {
 
 //    from configurations.runtime
     from configurations.compile.collect {it.isDirectory() ? it : zipTree(it)}
-    from "$buildDir/kotlin-classes/main"
+    from "$buildDir/classes/kotlin/main"
     from "$buildDir/resources/main"
 }
