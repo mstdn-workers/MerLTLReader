@@ -1,4 +1,7 @@
 apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = 'jp.zero_x_d.workaholic.merltlreader.MerLTLReader'
 
 buildscript {
     repositories {
