@@ -1,11 +1,14 @@
+require 'patch/string'
+
 status = {}
 
-function string:endsWith(e)
-    return self:sub(-(e:len()))==e
-end
+local html = require 'html'
+local nameConvert = require 'name'
+local convertPhenomenon = require 'phenomenon'
+local processSpoiler = require 'spoiler'
 
-function string:unEscapeRegex()
-    return self:gsub(".", "%%%1")
+function status:readName()
+    return nameConvert(self)
 end
 
 function status:isSpam()
@@ -20,104 +23,43 @@ function status:isSpam()
     return false
 end
 
-local name_table = {
-    D = "システムディー",
-    lvndr = function(a) a.displayName:gsub("◆TrWgXi12CA", "") end,
-    pcb = "ぱんかれ",
-    Do = "どぅー",
-    rin_souma = "そうま りん",
-    pina_32 = function(a)
-        return a.displayName:gsub("Pina", "ピナ")
-    end,
-    Fuji_Midoryzaka = function(a)
-        return a.displayName:gsub("翠坂満月", "みどりざかみつづき")
-    end,
-    teddycube = function(a)
-        return a.displayName:gsub("Kawasaki", "カワサキ")
-    end,
-    stlayer = "なぞのおとこ",
-    misakayuni = function(a)
-        return a.displayName:gsub("御坂優仁%(みさかゆに%)", "みさかゆに")
-    end,
-    TyamEpp = function(a)
-        return a.displayName:gsub("TyamEpp", "ちゃめっぷ")
-    end,
-    Erica_Hartmann = function(a)
-        return a.displayName
-            :gsub("Neutralität", "中立")
-            :gsub("Löwe", "レーヴェ")
-            :gsub("GmbH", "ゲーエムベーハー")
+function processBreak(str) return str:gsub("<br />", "\n") end
+function removeTag(str) return str:gsub("<[^>]+>", "") end
+function replaceURL(status)
+    -- """http(s)?://([\w-]+\.)+[\w-]+(:\w+)?(/[\w-./?%&=;]*)?"""
+    status.content = status.content:gsub(
+        "https?://[A-Za-z0-9_%.-]+:?%d*/?[A-Za-z0-9_%-%./%?%%&=;@]*",
+        "URL"
+    )
+    --[[ local MapKt = luajava.bindClass("jp.zero_x_d.workaholic.merltlreader.status.MapKt")
+    status.content = MapKt:remove_url(status.content) --]]
+end
+function processImageURL(status)
+    for _, mediaURL in ipairs(status.mediaAttachments) do
+        status.content = status.content:replace(
+            mediaURL.textUrl,
+            status.isSensitive and "不適切画像" or "画像"
+        )
     end
-}
-local function name_table_proc(a)
-    local id = a.acct
-    local name = name_table[id]
-    if type(name) == "string" then return name end
-    if type(name) == "function" then return name(a) end
-    return a.displayName
 end
 
-local formats = {"@%s", "＠%s", "%%(%s%%)", " on%s" }
-local words = {
-    "社畜丼",
-    "女装丼",
-    "mstdn-workers.com",
-    "mstdn-workers",
-    "workers",
-}
-local function remove_instance_str(name)
-    if not name then return nil end
-    for _, w in ipairs(words) do
-        for _, fmt in ipairs(formats) do
-            name = name:gsub(fmt:format(w)..'$', "")
-        end
-    end
-    return name
+function processQuote(str)
+    return str:kreplace([[(?m)^>\s*]], "引用 ")
 end
 
-function status:readName()
-    local name = name_table_proc(self.account)
-    name = remove_instance_str(name)
-    if not name or name == "" then
-        return self.account.username
-    end
-    return name:toReadable()
+function preProcessContent(status)
+    processSpoiler(status)
+    status.content = processBreak(status.content)
+    status.content = removeTag(status.content)
+    processImageURL(status)
+    replaceURL(status)
+    status.content = html.unescapeEntities(status.content)
+    status.content = processQuote(status.content)
 end
 
 function status:readContent()
-    return self.content:toReadable()
-end
-
-function string:toReadable()
-    return self:gsub("丼", "どん")
-        :gsub("畜", "ちく")
-        :gsub(":briefcase:", "")
-        :gsub(":white_check_mark:", "")
-        :gsub(":checkered_flag:", "チェッカーフラグ")
-        :gsub("瞿麦", "クバク")
-        :gsub("PSO2", "ぷそつ")
-        :gsub("\u00e2\u009c\u0085", "")
-        :gsub("mstdn-workers", "ますどんわーかーず")
-        :gsub((".jar"):unEscapeRegex(), "どっとじゃー")
-        :gsub("秋月", "あきづき")
-        :gsub("Π", "パイ")
-        :gsub(("#^^"):unEscapeRegex(), "ﾋﾞｷﾋﾞｷ")
-        :gsub(("&apos;"):unEscapeRegex(),"'")
-        :gsub("社畜丼", "社畜どん")
-        :gsub("1日", "いちにち")
-        :gsub("１日", "いちにち")
-        :gsub("一日", "いちにち")
-        :gsub("厨二", "ちゅうに")
-        :gsub("亜人", "あじん")
-        :gsub("5000兆円", "ごせんちょうえん")
-        :gsub(("++"):unEscapeRegex(), "ぷらすぷらす")
-        :gsub(("( ´•̥×•̥` )"):unEscapeRegex(), "")
-        :gsub("〜", "ー")
-        :gsub("～", "ー")
-        :gsub("…", " ")
-        -- TODO 対策: か ゙わ ゙い ゙い ゙な ゙ぁ ゙ A゛ O ゛B゛ ち゛ ゃ゛ ん゛
-        -- TODO 対策: ＿人人人人人人人人人人人＿ ＞ まろやかなチキン味 ＜ ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
-        -- TODO 対策:
+    preProcessContent(self)
+    return convertPhenomenon(self.content)
 end
 
 return status
