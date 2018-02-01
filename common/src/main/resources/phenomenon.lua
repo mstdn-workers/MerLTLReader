@@ -1,33 +1,7 @@
 -- convertPhenomenon(str)
 return function(str)
-    return str:replace("丼", "どん")
-    :replace("畜", "ちく")
-    :replace(":briefcase:", "")
-    :replace(":white_check_mark:", "")
-    :replace(":checkered_flag:", "チェッカーフラグ")
-    :replace("瞿麦", "クバク")
-    :replace("PSO2", "ぷそつ")
-    :replace("\u00e2\u009c\u0085", "")
-    :replace("mstdn-workers", "ますどんわーかーず")
-    :replace(".jar", "どっとじゃー")
-    :replace("秋月", "あきづき")
-    :replace("Π", "パイ")
-    :replace("#^^", "ﾋﾞｷﾋﾞｷ")
-    :replace("&apos;","'")
-    :replace("社畜丼", "社畜どん")
-    :replace("1日", "いちにち")
-    :replace("１日", "いちにち")
-    :replace("一日", "いちにち")
-    :replace("厨二", "ちゅうに")
-    :replace("亜人", "あじん")
-    :replace("5000兆円", "ごせんちょうえん")
-    :replace("++", "ぷらすぷらす")
-    :replace("MR", "Mixed Reality")
-    :replace("( ´•̥×•̥` )", "")
-    :replace("〜", "ー")
-    :replace("～", "ー")
-    :replace("…", " ")
-    -- TODO 対策: か ゙わ ゙い ゙い ゙な ゙ぁ ゙ A゛ O ゛B゛ ち゛ ゃ゛ ん゛
-    -- TODO 対策: ＿人人人人人人人人人人人＿ ＞ まろやかなチキン味 ＜ ￣Y^Y^Y^Y^Y^Y^Y^Y^Y^Y￣
-    -- TODO 対策: AA; とくにツーシーム投げ猫
+    -- 読み上げるシステムが読み方を教える機能を持っていない場合に、
+    -- こちら側で平仮名に置換して対応する
+    -- return str:replace("", "")
+    return str
 end

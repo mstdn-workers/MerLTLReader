@@ -13,8 +13,7 @@ end
 
 local function spoilerOpenByBlackList(status)
     local bl = {
-        a_nick_w = "バ部",
-        Baph0met = "バ部"
+        -- blacklist_username_here = true
     }
     if bl[status.account.acct] then
         spoilerAllClose(status)
