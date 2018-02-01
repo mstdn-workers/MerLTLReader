@@ -28,4 +28,4 @@ val Status.readName: String
     get() = lReadName.call(valueOf(this)).tojstring()
 
 val Status.readContent: String
-    get() = lReadContent.call(readContent_).tojstring()
+    get() = lReadContent.call(valueOf(this)).tojstring()
