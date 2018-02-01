@@ -21,7 +21,7 @@ end
 return function(status)
     local name = name_table_proc(status.account)
     if not name or name == "" then
-        return status.account.username
+        return status.account.userName
     end
     return convertPhenomenon(name)
 end
