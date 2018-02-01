@@ -25,7 +25,7 @@ import com.sys1yagi.mastodon4j.api.entity.Status
 import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException
 import jp.zero_x_d.workaholic.merltlreader.db.database
 import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
-import jp.zero_x_d.workaholic.merltlreader.status.readContent_
+import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -233,7 +233,7 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                     synchronized(toots) {
                         toots.add(0, TootAdapter.Toot(
                                 toot.account!!.displayName,
-                                toot.readContent_!!,
+                                toot.readContent!!,
                                 toot.account!!.avatar
                         ))
                     }

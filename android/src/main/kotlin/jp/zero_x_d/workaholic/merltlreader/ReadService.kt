@@ -21,7 +21,6 @@ import jp.zero_x_d.workaholic.merltlreader.db.database
 import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
 import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import jp.zero_x_d.workaholic.merltlreader.status.readName
-import jp.zero_x_d.workaholic.merltlreader.status.remove_tag
 import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
@@ -150,7 +149,7 @@ class ReadService: IntentService("ReadService") {
                 )
                 updateNotify(
                         status?.account?.displayName + ": "
-                                + remove_tag(status.content)
+                                + status.readContent
                 )
             }
         } catch (e: InterruptedException) {
