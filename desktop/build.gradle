@@ -13,7 +13,6 @@ dependencies {
     compile 'net.harawata:appdirs:1.0.0'
     compile 'org.slf4j:slf4j-nop:1.7.25'
     compile 'com.salesforceiq.augmenteddriver:AugmentedDriver:1.7.6'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile 'org.jetbrains.kotlin:kotlin-reflect'
 }
 

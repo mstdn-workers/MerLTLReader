@@ -1,7 +1,7 @@
 apply plugin: 'kotlin'
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
 }
 
