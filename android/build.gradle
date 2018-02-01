@@ -9,7 +9,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     compileSdkVersion 26
-    buildToolsVersion '26.0.0'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "jp.zero_x_d.workaholic.merltlreader"
         minSdkVersion 16
