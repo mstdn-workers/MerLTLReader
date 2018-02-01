@@ -9,7 +9,7 @@ import org.luaj.vm2.LuaValue.*
  */
 
 inline fun valueOf(long: Long?): LuaValue {
-    return if (long != null) valueOf(long.toString()) else NIL
+    return long?.let { valueOf(it.toString()) }?: NIL
 }
 
 fun valueOf(mention: Mention): LuaValue = tableOf(arrayOf(
