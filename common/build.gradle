@@ -11,6 +11,8 @@ dependencies {
     compile 'com.github.sys1yagi.mastodon4j:mastodon4j:1.6.0'
     compile 'com.github.sys1yagi.mastodon4j:mastodon4j-rx:1.6.0'
 
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.11.2'
+
     //compile 'org.json:json:20170516'
     //compile 'com.vdurmont:emoji-java:3.2.0'
     compile 'com.kcthota:emoji4j:5.0'
