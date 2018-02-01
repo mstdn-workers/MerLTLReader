@@ -1,6 +1,7 @@
 package jp.zero_x_d.workaholic.merltlreader.status
 
 import com.sys1yagi.mastodon4j.api.entity.Status
+import jp.zero_x_d.workaholic.merltlreader.script.Lua
 import org.luaj.vm2.lib.jse.JsePlatform
 
 
@@ -10,7 +11,7 @@ import org.luaj.vm2.lib.jse.JsePlatform
 
 
 private val g by lazy {
-    JsePlatform.debugGlobals()
+    Lua.globals
 }
 private val lua_status_lib by lazy {
     g.load("return require('status')").call()

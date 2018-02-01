@@ -18,6 +18,7 @@ private val g by lazy {
     JsePlatform.debugGlobals().apply {
         setPackagePath(defaultPackagePath)
         load(HTMLLib())
+        println("load kotlin lib")
         load(KotlinLib())
     }
 }
@@ -35,4 +36,7 @@ object Lua {
     var packagePath: String
         get() = g.getPackagePath().tojstring()
         set(path) { g.setPackagePath(path) }
+
+    val globals: Globals
+        get() = g
 }
