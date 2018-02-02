@@ -3,7 +3,10 @@ package jp.zero_x_d.workaholic.merltlreader.app.guifallback
 import javafx.application.Application
 import javafx.application.Platform
 import javafx.scene.Scene
+import javafx.scene.control.Menu
+import javafx.scene.control.MenuBar
 import javafx.scene.control.TextArea
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 import jp.zero_x_d.workaholic.merltlreader.Credentials
@@ -16,12 +19,16 @@ import kotlin.concurrent.thread
 class GUIApp: Application() {
     override fun start(primaryStage: Stage) {
         Platform.setImplicitExit(true)
-        val root = StackPane()
-        val scene = Scene(root, 640.0, 480.0)
+        val rootBorderPane = BorderPane()
+        val scene = Scene(rootBorderPane, 640.0, 480.0)
+        val stackPane = StackPane()
         val logArea = TextArea().apply {
             textProperty().addListener { _ ->
                 scrollTop = Double.MAX_VALUE
             }
+        }
+        val menuBar = MenuBar().apply {
+            
         }
 
         MerLTLReader.onStatus += { status ->
@@ -29,8 +36,10 @@ class GUIApp: Application() {
                 logArea.appendText(status.readContent + "\n")
             }
         }
+        stackPane.children.add(logArea)
 
-        root.children.add(logArea)
+        rootBorderPane.top = menuBar
+        rootBorderPane.center = stackPane
         primaryStage.scene = scene
 
         primaryStage.setOnCloseRequest { event ->
