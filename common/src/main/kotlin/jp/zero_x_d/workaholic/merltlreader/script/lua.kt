@@ -36,7 +36,6 @@ object Lua {
 
     fun reload() {
         g = newAppDefaultGlobals()
-        TODO()
     }
 
     var packagePath: String
