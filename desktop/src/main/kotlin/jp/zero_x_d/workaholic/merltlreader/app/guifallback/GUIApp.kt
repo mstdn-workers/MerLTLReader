@@ -5,6 +5,7 @@ import javafx.application.Platform
 import javafx.scene.Scene
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
+import javafx.scene.control.MenuItem
 import javafx.scene.control.TextArea
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
@@ -13,6 +14,7 @@ import jp.zero_x_d.workaholic.merltlreader.Credentials
 import jp.zero_x_d.workaholic.merltlreader.MerLTLReader
 import jp.zero_x_d.workaholic.merltlreader.Timeline
 import jp.zero_x_d.workaholic.merltlreader.engine.ITTSEngine
+import jp.zero_x_d.workaholic.merltlreader.script.Lua
 import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import kotlin.concurrent.thread
 
@@ -28,7 +30,11 @@ class GUIApp: Application() {
             }
         }
         val menuBar = MenuBar().apply {
-            
+            menus += Menu("Script").apply {
+                items += MenuItem("reload").apply {
+                    setOnAction { _ -> Lua.reload() }
+                }
+            }
         }
 
         MerLTLReader.onStatus += { status ->
