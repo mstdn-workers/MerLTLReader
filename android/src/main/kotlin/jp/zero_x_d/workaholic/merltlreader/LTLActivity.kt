@@ -25,6 +25,7 @@ import com.sys1yagi.mastodon4j.api.entity.Status
 import com.sys1yagi.mastodon4j.api.exception.Mastodon4jRequestException
 import jp.zero_x_d.workaholic.merltlreader.db.database
 import jp.zero_x_d.workaholic.merltlreader.db.getAccessToken
+import jp.zero_x_d.workaholic.merltlreader.script.Lua
 import jp.zero_x_d.workaholic.merltlreader.status.readContent
 import jp.zero_x_d.workaholic.merltlreader.tls.setTLSv12
 import okhttp3.FormBody
@@ -193,6 +194,9 @@ class LTLActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelected
                 val intent = Intent(
                         this, InstanceSettingActivity::class.java)
                 startActivity(intent)
+            }
+            R.id.nav_script_reload -> {
+                Lua.reload()
             }
             /*
             R.id.nav_share -> {
